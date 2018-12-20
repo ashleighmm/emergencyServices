@@ -1,5 +1,7 @@
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -20,16 +22,16 @@ public final class EmergencyCall implements Serializable {
     private final SimpleStringProperty date = new SimpleStringProperty("");
     private final SimpleStringProperty address = new SimpleStringProperty("");
     private final SimpleStringProperty category = new SimpleStringProperty("");
-    private final SimpleStringProperty emergency = new SimpleStringProperty("");
+    private final SimpleStringProperty description = new SimpleStringProperty("");
 
-    public EmergencyCall(String firstName, String lastName, String callId, String date, String address, String category, String emergency) {
+    public EmergencyCall(String firstName, String lastName, String callId, String date, String address, String category, String description) {
         setFirstName(firstName);
         setLastName(lastName);
         setCallId(callId);
         setDate(date);
         setAddress(address);
         setCategory(category);
-        setEmergency(emergency);
+        setDescription(description);
     }
 
     
@@ -41,10 +43,13 @@ public final class EmergencyCall implements Serializable {
         //System.out.println("System date : "+ mydate.toString() ); 
         //return mydate;
         return date.get();
+        
     }
 
     public void setDate(String newDate) {
-        date.set(newDate);
+       SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+       String theDate  = dateFormat.format(new Date());
+       date.set(newDate);
     }
 
 //    public String getCallId() {
@@ -94,13 +99,12 @@ public final class EmergencyCall implements Serializable {
         category.set(cat);
     }
     
-     public String getEmergency() {
-        return emergency.get();
+    public String getDescription() {
+        return description.get();
     }
 
-    public void setEmergency(String emerg) {
-        emergency.set(emerg);
+    public void setDescription(String desc) {
+        description.set(desc);
     }
-   
 
 }

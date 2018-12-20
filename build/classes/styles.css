@@ -40,7 +40,7 @@
 	-swatch-400: #42A5F5;
 	-swatch-500: #2196F3;
 	/*default text */
-	-fx-text-base-color: rgb(100.0, 100.0, 100.0);
+	-fx-text-base-color: rgb(255.0, 255.0, 255.0);
 	-fx-text-button-normal: -swatch-500;
 	-fx-text-button-colored: rgb(255.0, 255.0, 255.0);
 	-fx-text-button-text: rgb(100.0, 100.0, 100.0);
@@ -686,11 +686,20 @@
 
 .table-row-cell, .tree-table-row-cell {
 	-fx-cell-size: 40px;
+        -fx-background-color:transparent;
+}      
+.table-row-cell:selected {
+    -fx-background-color:-swatch-grey;
 }
 
 .table-cell {
 	-fx-border-color: transparent; /* Vertical Lines*/
 	-fx-border-width: 1;
+        -fx-pref-width: 42;
+}
+
+.table-column{
+-fx-pref-width: 6em;
 }
 
 /*******************************************************************************
@@ -709,7 +718,7 @@
 	-fx-border-color: -swatch-grey;
 	-fx-border-width: 0 0 2 0;
 	-fx-prompt-text-fill: derive(-dark, 50.0%);
-	-fx-highlight-fill: rgb(94.0, 203.0, 234.0);
+	-fx-highlight-fill: rgb(0,0,0);
 }
 
 .text-area .text, .text-field>*>.text {
@@ -719,12 +728,15 @@
 
 .text-area {
 	-fx-padding: 0.15em;
+        -fx-background-color: transparent;
+        -fx-fill: -dark;
 }
 
 .text-area .content {
 	-fx-padding: 0.7em;
 	-fx-border-width: 0.0;
 	-fx-background-color: transparent;
+        -fx-fill: -dark;
 }
 
 .text-area:focused  .content {
