@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.util.UUID;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -6,7 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Ashleigh
  */
-public final class EmergencyCall {
+public final class EmergencyCall implements Serializable {
+    private static final long serialVersionUID = 1L;
 
    // public String callId;
 //    public Date date;

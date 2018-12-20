@@ -3,10 +3,8 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
@@ -41,18 +39,16 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 
 public class EmergencyServices extends Application {
-
+    
     @Override
     public void start(Stage primaryStage) {
+        
         Label response = new Label("\nResponse Placeholder\n");
         Label title = new Label("Incoming Calls\n");
-        //Label showCallID = new Label("Caller ID: ");
         Label showDate = new Label("Call Time: ");
         title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         title.setTextFill(Color.CADETBLUE);
 
-
-        //acceptCall();
         //EmergencyCall is the data type, set in the EmergencyCall class
         //Create an array of calls which are visible to the eye
         //Take in name and last name in a form field
@@ -65,7 +61,6 @@ public class EmergencyServices extends Application {
         Button button = new Button("Accept");
         buttonHolder.getChildren().add(loadCall);
         buttonHolder.getChildren().add(button);
-        
 
         TableView<EmergencyCall> emerCalls = new TableView<>(contactList);
 
@@ -109,7 +104,7 @@ public class EmergencyServices extends Application {
                 = emerCalls.getSelectionModel();
 
         // Get the index of the selected caller
-        //callerSelContact.selectedIndexProperty().addListener((ObservableValue<? extends Number> changed, Number oldVal, Number newVal) -> {
+        // callerSelContact.selectedIndexProperty().addListener((ObservableValue<? extends Number> changed, Number oldVal, Number newVal) -> {
 //        callerSelContact.selectedIndexProperty().addListener((ObservableValue<? extends Number> changed, Number oldVal, Number newVal) -> {
 //            int index = (int) newVal;
         // get the caller Id number of the selected contact in the array of objects with the index value
@@ -117,7 +112,8 @@ public class EmergencyServices extends Application {
         //      +contactList.get(index).getCallId());
         // Print out the ID and time of the call
         // Create new window for caller input form 
-        //Label secondLabel = new Label("Caller ID: " + contactList.setCallId());
+        // Label secondLabel = new Label("Caller ID: " + contactList.setCallId());
+        
         // Add Header
         Label headerLabel = new Label("Emergency Details");
         headerLabel.setFont(Font.font("Arial", FontWeight.BOLD, 24));
@@ -185,7 +181,7 @@ public class EmergencyServices extends Application {
         secondaryLayout.add(submitButton, 0, 6, 2, 1);
         GridPane.setHalignment(submitButton, HPos.CENTER);
         GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
-
+        
         submitButton.setOnAction(e
                 -> {
             String newName = nameField.getText();
@@ -199,17 +195,19 @@ public class EmergencyServices extends Application {
                         + lnameField.getText() + " needs "
                         + dropdown.getValue() + " response ");
 
-                
-                contactList.add(new EmergencyCall(newName, newLName, "", "", addressEmer, newCat, emergencyDesc));
+                EmergencyCall emergency = new EmergencyCall(newName, newLName, "", "", addressEmer, newCat, emergencyDesc);
 
+                contactList.add(emergency);
+                writeList(contactList);
             }
-            //writeList(contactList);
-            ((Node)(e.getSource())).getScene().getWindow().hide();
+            
+            ((Node) (e.getSource())).getScene().getWindow().hide();
             nameField.clear();
             lnameField.clear();
             emergencyField.clear();
             addressField.clear();
             primaryStage.toFront();
+
         });
 
         Scene secondScene = new Scene(secondaryLayout, 800, 800);
@@ -231,9 +229,7 @@ public class EmergencyServices extends Application {
         newWindow.setY(primaryStage.getY() + 100);
 
         //showDate.setText("Call Time: " + contactList.get(index).getDate());
-        
 //        });
-
         response.setFont(Font.font("Arial", 14));
 
         BorderPane root = new BorderPane();
@@ -246,18 +242,13 @@ public class EmergencyServices extends Application {
         primaryStage.setTitle("Emergency Services");
         primaryStage.setScene(scene);
         primaryStage.show();
-        
+
         button.setOnAction((ActionEvent event) -> {
             newWindow.show();
             primaryStage.toBack();
         });
     }
-    
-    
-    
 
-    
-    
 
     public boolean acceptCall() {
         //Set up the alert box that appears when a call comes in to accept or reject it
@@ -277,27 +268,28 @@ public class EmergencyServices extends Application {
         return buttonTypeOne.equals(option.get());
     }
 
-    // Write array of cars to textfile, expecting the list of cars as a parameter
-    static void writeList(List<EmergencyCall> carListIn) {
+    // Write array of emergency calls to textfile, expecting the list of emergency calls as a parameter
+    static void writeList(List<EmergencyCall> emerListIn) {
 
         try (
                 // Create a carFile object and asssociate it with Cars.txt
                 FileWriter inputFile = new FileWriter("input.txt");
                 // Wrap the carFile object in the carWriter object
-                PrintWriter callWriter = new PrintWriter(inputFile);) {
+                PrintWriter emerWriter = new PrintWriter(inputFile);) {
             // Loop through the Cars and print the values in the textfile
-            for (EmergencyCall item : carListIn) {
-                callWriter.println("First Name: " + item.getFirstName());
-                callWriter.println("Last Name: " + item.getLastName());
-                callWriter.println("Category:" + item.getCategory());
-                callWriter.println();
-                callWriter.println("Hello");
+            for (EmergencyCall item : emerListIn) {
+                emerWriter.println("CallId:" + item.getCallId());
+                emerWriter.println("First Name: " + item.getFirstName());
+                emerWriter.println("Last Name: " + item.getLastName());
+                emerWriter.println("Address: " + item.getAddress());
+                emerWriter.println("Category: " + item.getCategory());
+                emerWriter.println("Description: " + item.getEmergency());
+                emerWriter.println();
             }
         } // Print error message if an exception has been thrown
         catch (IOException e) {
             System.out.println("error writing the file");
         }
-
     }
 
     static void readList(List<EmergencyCall> carListIn) {
@@ -330,22 +322,4 @@ public class EmergencyServices extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    public void WriteObjectToFile(Object serObj) {
-
-        try {
-
-            FileOutputStream fileOut = new FileOutputStream("input.txt");
-
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-
-            objectOut.writeObject(serObj);
-            objectOut.close();
-            System.out.println("The Object  was succesfully written to a file");
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
-        }
-    }
-
 }
