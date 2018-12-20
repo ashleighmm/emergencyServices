@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -33,7 +34,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.util.Duration;
-
+/**
+ * 
+ * EmergencyServices application that takes in calls and allows the user to input the emergency details into the application table and write them to a file.
+ *
+ * @author Ashleigh
+ */
 public class EmergencyServices extends Application {
 
     @Override
@@ -278,8 +284,8 @@ public class EmergencyServices extends Application {
                 // Wrap the EmercencyCall object in the emerWriter object
                 PrintWriter emerWriter = new PrintWriter(inputFile);) {
             // Loop through the EmercencyCalls and print the values in the textfile
-            for (EmergencyCall item : emerListIn) {
-                
+            for (Iterator<EmergencyCall> it = emerListIn.iterator(); it.hasNext();) {
+                EmergencyCall item = it.next();
                 emerWriter.println("CallId:" + item.getCallId());
                 emerWriter.println("First Name: " + item.getFirstName());
                 emerWriter.println("Last Name: " + item.getLastName());

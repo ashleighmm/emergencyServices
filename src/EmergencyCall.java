@@ -1,19 +1,16 @@
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 import javafx.beans.property.SimpleStringProperty;
-
 /**
+ * 
+ * EmergencyCall class getters and setters
  *
  * @author Ashleigh
  */
 public final class EmergencyCall implements Serializable {
     private static final long serialVersionUID = 1L;
-
-   // public String callId;
-//    public Date date;
 
     //SimpleStringProperty class creates a string property that is readable and writable to the wrapped string value
     private final SimpleStringProperty firstName = new SimpleStringProperty("");
