@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -51,6 +52,8 @@ public class EmergencyServices extends Application {
         title.setPadding(new Insets(10, 10, 10, 10));
         title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         title.setTextFill(Color.CADETBLUE);
+        response.setTextFill(Color.RED);
+        
 
         //EmergencyCall is the data type, set in the EmergencyCall class
         //Create an array of calls which are visible to the eye
@@ -128,14 +131,14 @@ public class EmergencyServices extends Application {
         GridPane.setMargin(headerLabel, new Insets(20, 0, 20, 0));
 
         // Add Name Label & Text Field
-        Label nameLabel = new Label("First Name : ");
+        Label nameLabel = new Label(" First Name : ");
         secondaryLayout.add(nameLabel, 0, 1);
 
         TextField nameField = new TextField();
         nameField.setPrefHeight(40);
         secondaryLayout.add(nameField, 1, 1);
 
-        Label lnameLabel = new Label("Last Name : ");
+        Label lnameLabel = new Label(" Last Name : ");
         secondaryLayout.add(lnameLabel, 0, 2);
 
         // Add Name Text Field
@@ -144,16 +147,17 @@ public class EmergencyServices extends Application {
         secondaryLayout.add(lnameField, 1, 2);
 
         // Add Emergency Description Label
-        Label emergencyLabel = new Label("Emergency Description : ");
+        Label emergencyLabel = new Label(" Emergency Description : ");
         secondaryLayout.add(emergencyLabel, 0, 3);
 
         // Add Emergency Description Text Field
         TextArea emergencyField = new TextArea();
         emergencyField.setPrefHeight(80);
         secondaryLayout.add(emergencyField, 1, 3);
+        emergencyField.setStyle("text-area-background: transparent;");
 
         // Add Address Label
-        Label addressLabel = new Label("Address : ");
+        Label addressLabel = new Label(" Address : ");
         secondaryLayout.add(addressLabel, 0, 4);
 
         // Add Address Text Field
@@ -164,18 +168,15 @@ public class EmergencyServices extends Application {
         // Add Emergency Category Label
         Label emergencyCategoryLabel = new Label(" Emergency Category : ");
         secondaryLayout.add(emergencyCategoryLabel, 0, 5);
-
         ChoiceBox<String> dropdown = new ChoiceBox<>();
 
+        // Add Emergency Category Dropdown
         dropdown.getItems().addAll("Police", "Ambulance", "Fire Station");
         dropdown.getSelectionModel().select(0);
-
         secondaryLayout.add(dropdown, 1, 5);
 
         Label labelresponse = new Label();
         secondaryLayout.add(labelresponse, 0, 6);
-
-        
         
         
         // Add Submit Button
@@ -184,8 +185,10 @@ public class EmergencyServices extends Application {
         submitButton.setDefaultButton(true);
         submitButton.setPrefWidth(100);
         secondaryLayout.add(submitButton, 0, 6, 2, 1);
-        GridPane.setHalignment(submitButton, HPos.CENTER);
-        GridPane.setMargin(submitButton, new Insets(20, 0, 20, 0));
+        GridPane.setHalignment(submitButton, HPos.RIGHT);
+        GridPane.setMargin(submitButton, new Insets(20, 20, 20, 20));
+        
+        
 
         submitButton.setOnAction(e
                 -> {
@@ -198,28 +201,24 @@ public class EmergencyServices extends Application {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             String theDate  = dateFormat.format(new Date());
             
-            // Input testing
-            if (nameField.getText() != null && emergencyField.getText() != null) {
-//                labelresponse.setText(
-//                        nameField.getText() + " "
-//                        + lnameField.getText() + " needs "
-//                        + dropdown.getValue() + " response ");
-                //Create a new object with all of the filed values
+            if (nameField.getText() == null || nameField.getText().trim().isEmpty()) {
+                labelresponse.setText("Please fill in all of the fields");
+            }
+            else  {
+                 //Create a new object with all of the filed values
                 EmergencyCall emergency = new EmergencyCall(newName, newLName, "", theDate, addressEmer, newCat, newDesc);
-                
                 // Add object values to table row
                 contactList.add(emergency);
                 // Write the object values to the text file
                 writeList(contactList);
+                // Close the form window on submit
+                ((Node) (e.getSource())).getScene().getWindow().hide();
+                // Clear the field values
+                nameField.clear();
+                lnameField.clear();
+                emergencyField.clear();
+                addressField.clear();
             }
-            // Close the form window on submit
-            ((Node) (e.getSource())).getScene().getWindow().hide();
-            // Clear the field values
-            nameField.clear();
-            lnameField.clear();
-            emergencyField.clear();
-            addressField.clear();
-
         });
         //Set the size of the form window
         Scene secondScene = new Scene(secondaryLayout, 800, 400);
@@ -239,7 +238,6 @@ public class EmergencyServices extends Application {
         // Set position of second window, related to primary window.
         newWindow.setX(primaryStage.getX() + 200);
         newWindow.setY(primaryStage.getY() + 100);
-        
         response.setFont(Font.font("Arial", 14));
 
         //Add elements to the primary stage
@@ -275,6 +273,8 @@ public class EmergencyServices extends Application {
         });
     }
 
+        
+    
     // Write array of emergency calls to textfile, expecting the list of emergency calls as a parameter
     static void writeList(List<EmergencyCall> emerListIn) {
 

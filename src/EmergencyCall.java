@@ -9,8 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Ashleigh
  */
-public final class EmergencyCall implements Serializable {
-    private static final long serialVersionUID = 1L;
+public final class EmergencyCall {
 
     //SimpleStringProperty class creates a string property that is readable and writable to the wrapped string value
     private final SimpleStringProperty firstName = new SimpleStringProperty("");
