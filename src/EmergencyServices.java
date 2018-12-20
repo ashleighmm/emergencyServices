@@ -61,6 +61,8 @@ public class EmergencyServices extends Application {
         Button button = new Button("Accept");
         buttonHolder.getChildren().add(loadCall);
         buttonHolder.getChildren().add(button);
+        final Button deleteButton = new Button("Delete");
+        buttonHolder.getChildren().add(deleteButton);
 
         TableView<EmergencyCall> emerCalls = new TableView<>(contactList);
 
@@ -103,16 +105,8 @@ public class EmergencyServices extends Application {
         TableView.TableViewSelectionModel<EmergencyCall> callerSelContact
                 = emerCalls.getSelectionModel();
 
-        // Get the index of the selected caller
-        // callerSelContact.selectedIndexProperty().addListener((ObservableValue<? extends Number> changed, Number oldVal, Number newVal) -> {
-//        callerSelContact.selectedIndexProperty().addListener((ObservableValue<? extends Number> changed, Number oldVal, Number newVal) -> {
-//            int index = (int) newVal;
-        // get the caller Id number of the selected contact in the array of objects with the index value
-        //response.setText("The id number for the contact selected is "
-        //      +contactList.get(index).getCallId());
-        // Print out the ID and time of the call
-        // Create new window for caller input form 
-        // Label secondLabel = new Label("Caller ID: " + contactList.setCallId());
+        
+
         
         // Add Header
         Label headerLabel = new Label("Emergency Details");
@@ -127,28 +121,28 @@ public class EmergencyServices extends Application {
 
         // Add Name Label & Text Field
         Label nameLabel = new Label("First Name : ");
-        secondaryLayout.add(nameLabel, 0, 1);
+        secondaryLayout.add(nameLabel, 0, 0);
 
         TextField nameField = new TextField();
         nameField.setPrefHeight(40);
-        secondaryLayout.add(nameField, 1, 2);
+        secondaryLayout.add(nameField, 1, 0);
 
         Label lnameLabel = new Label("Last Name : ");
-        secondaryLayout.add(lnameLabel, 0, 2);
+        secondaryLayout.add(lnameLabel, 0, 1);
 
         // Add Name Text Field
         TextField lnameField = new TextField();
         lnameField.setPrefHeight(40);
-        secondaryLayout.add(lnameField, 1, 3);
+        secondaryLayout.add(lnameField, 1, 1);
 
         // Add Emergency Description Label
         Label emergencyLabel = new Label("Emergency Description : ");
-        secondaryLayout.add(emergencyLabel, 0, 3);
+        secondaryLayout.add(emergencyLabel, 0, 2);
 
         // Add Emergency Description Text Field
         TextArea emergencyField = new TextArea();
         emergencyField.setPrefHeight(80);
-        secondaryLayout.add(emergencyField, 1, 4);
+        secondaryLayout.add(emergencyField, 1, 2);
 
         // Add Address Label
         Label addressLabel = new Label("Address : ");
@@ -157,7 +151,7 @@ public class EmergencyServices extends Application {
         // Add Address Text Field
         TextArea addressField = new TextArea();
         addressField.setPrefHeight(80);
-        secondaryLayout.add(addressField, 1, 4);
+        secondaryLayout.add(addressField, 1, 3);
 
         // Add Emergency Category Label
         Label emergencyCategoryLabel = new Label(" Emergency Category : ");
@@ -168,10 +162,10 @@ public class EmergencyServices extends Application {
         dropdown.getItems().addAll("Police", "Ambulance", "Fire Station");
         dropdown.getSelectionModel().select(0);
 
-        secondaryLayout.add(dropdown, 1, 5);
+        secondaryLayout.add(dropdown, 1, 4);
 
         Label labelresponse = new Label();
-        secondaryLayout.add(labelresponse, 0, 6);
+        secondaryLayout.add(labelresponse, 0, 5);
 
         // Add Submit Button
         Button submitButton = new Button("Submit");
@@ -241,11 +235,18 @@ public class EmergencyServices extends Application {
         Scene scene = new Scene(root, 800, 800);
         primaryStage.setTitle("Emergency Services");
         primaryStage.setScene(scene);
+        scene.getStylesheets().add
+        (EmergencyServices.class.getResource("styles.css").toExternalForm());
         primaryStage.show();
 
         button.setOnAction((ActionEvent event) -> {
             newWindow.show();
             primaryStage.toBack();
+        });
+        
+        deleteButton.setOnAction(e -> {
+            EmergencyCall selectedItem = emerCalls.getSelectionModel().getSelectedItem();
+            emerCalls.getItems().remove(selectedItem);
         });
     }
 
@@ -320,6 +321,7 @@ public class EmergencyServices extends Application {
     }
 
     public static void main(String[] args) {
+        
         launch(args);
     }
 }
