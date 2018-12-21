@@ -200,10 +200,11 @@
 	-fx-border-width: 0 0 2 0;
 	-fx-background-radius: 0;
 	-fx-border-radius: 0;
+         -fx-text-fill: blue; 
 }
 
 .combo-box:focused, .choice-box:focused {
-	-fx-border-color: -swatch-500;
+	-fx-border-color: -swatch-grey;
 }
 
 .combo-box-base>.label, .choice-box>.label {
@@ -228,6 +229,8 @@
 	-fx-background-color: -swatch-light-grey;
 }
 
+.choice-box .menu-item > .label { -fx-text-fill: black; }
+
 /*******************************************************************************
  *                                                                             *
  * CheckBox                                                                    *
@@ -236,6 +239,7 @@
 .check-box {
 	-fx-padding: 10;
 }
+
 
 .check-box .text {
 	-fx-fill: -fx-text-base-color;

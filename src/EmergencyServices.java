@@ -19,7 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -53,7 +52,6 @@ public class EmergencyServices extends Application {
         title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         title.setTextFill(Color.CADETBLUE);
         response.setTextFill(Color.RED);
-        
 
         //EmergencyCall is the data type, set in the EmergencyCall class
         //Create an array of calls which are visible to the eye
@@ -61,6 +59,7 @@ public class EmergencyServices extends Application {
         ObservableList<EmergencyCall> contactList = FXCollections.observableArrayList();
         VBox buttonHolder = new VBox();
         VBox deleteCont = new VBox();
+        buttonHolder.setStyle("-fx-background-color: #555555;");
         buttonHolder.setPadding(new Insets(10, 50, 50, 10));
         buttonHolder.setSpacing(10);
         Label loadCall = new Label("Incoming Call..");
@@ -70,7 +69,7 @@ public class EmergencyServices extends Application {
         buttonHolder.getChildren().add(loadCall);
         buttonHolder.getChildren().add(button);
         final Button deleteButton = new Button("Delete");
-        deleteButton.setStyle("-fx-background-color: #FF4500	; -fx-text-fill: #ffffff");
+        deleteButton.setStyle("-fx-background-color: #FF4500; -fx-text-fill: #ffffff");
         buttonHolder.getChildren().add(deleteCont);
         deleteCont.getChildren().add(actions);
         deleteCont.getChildren().add(deleteButton);
@@ -189,7 +188,7 @@ public class EmergencyServices extends Application {
         GridPane.setMargin(submitButton, new Insets(20, 20, 20, 20));
         
         
-
+        //When submit button is clicked, process the input
         submitButton.setOnAction(e
                 -> {
             // Get values from fields and save them as variable
@@ -201,6 +200,7 @@ public class EmergencyServices extends Application {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             String theDate  = dateFormat.format(new Date());
             
+            // Test for input value
             if (nameField.getText() == null || nameField.getText().trim().isEmpty()) {
                 labelresponse.setText("Please fill in all of the fields");
             }
